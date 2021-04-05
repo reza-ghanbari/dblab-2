@@ -1,7 +1,7 @@
 import { PersonDto } from './dto/person.dto';
 import { HelloService } from './hello.service';
 import { Body, Controller, Get, Header, Post, Query } from '@nestjs/common';
-import { ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('hello')
 export class HelloController {
@@ -9,6 +9,7 @@ export class HelloController {
 
   @Header('Content-type', 'application/json')
   @ApiResponse({ status: 200, description: 'Say Hello!' })
+  @ApiTags('hello')
   @Post('welcome')
   @Header('Content-type', 'application/json')
   async sayWelcome(@Body() personDto: PersonDto): Promise<{ data: string }> {
@@ -24,6 +25,7 @@ export class HelloController {
     type: Number,
     description: 'you can ignore this',
   })
+  @ApiTags('hello')
   @Get('welcome')
   async sayWelcome2(@Query('name') iName, @Query('year') iYear) {
     const msg = await this.helloServie.welcome({ name: iName, year: iYear });
