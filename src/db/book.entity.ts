@@ -1,4 +1,12 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import GenreEntity from './genre.entity';
 import UserEntity from './user.entity';
 
@@ -13,7 +21,7 @@ export default class BookEntity extends BaseEntity {
   @ManyToOne((type) => UserEntity, (user) => user.books)
   user: UserEntity;
 
-  @ManyToMany(type => GenreEntity)
+  @ManyToMany((type) => GenreEntity)
   @JoinTable()
   genres: GenreEntity[];
 }

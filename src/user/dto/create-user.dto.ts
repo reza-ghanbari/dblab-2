@@ -6,7 +6,7 @@ export default class CreateUserDto {
     type: String,
     example: 'reza',
   })
-  readonly name: string;
+  readonly name?: string;
   @ApiProperty({ description: 'id of books that they own', type: [Number] })
-  readonly books: number[];
+  readonly books?: number[];
 }

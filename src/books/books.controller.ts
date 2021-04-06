@@ -1,5 +1,14 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { BooksService } from './books.service';
 import CreateBookDto from './dto/create-book.dto';
 
@@ -22,5 +31,26 @@ export class BooksController {
   @Get()
   async getAll() {
     return this.bookService.getAll();
+  }
+
+  @ApiResponse({
+    status: 200,
+    description:
+      'updates if book has already existed, otherwise creates new book',
+  })
+  @ApiTags('book')
+  @Put(':id')
+  updateBook(
+    @Body() book: CreateBookDto,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.bookService.updateBook(book, id);
+  }
+
+  @ApiResponse({ status: 200, description: 'deletes a user if it exists' })
+  @ApiTags('book')
+  @Delete(':id')
+  async deleteBook(@Param('id', ParseIntPipe) id: number) {
+    return this.bookService.deleteBook(id);
   }
 }

@@ -1,11 +1,12 @@
 {
-  "type": "sqlite",
-  "database": "./database.sqlite",
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "rq192578",
+  "database": "bookapp",
   "synchronize": "true",
   "entities": [
-    "dist/db/*.entity.js"
-  ],
-  "cli": {
-    "entitiesDir": "src/db"
-  }
+    "dist/db/*.entity{.js, .ts}"
+  ]
 }

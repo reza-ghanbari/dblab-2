@@ -6,9 +6,9 @@ export default class CreateBookDto {
     type: String,
     example: 'Divan of Hafez',
   })
-  readonly name: string;
+  readonly name?: string;
   @ApiProperty({ description: 'id of owner >', type: Number })
-  readonly userId: number;
+  readonly userId?: number;
   @ApiProperty({ description: 'genre ids >', type: [Number] })
-  readonly genreIds: number[];
+  readonly genreIds?: number[];
 }
