@@ -1,3 +1,4 @@
+import { AuthGuard } from '@nestjs/passport';
 import { UserService } from './user.service';
 import {
   Body,
@@ -8,10 +9,10 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import CreateUserDto from './dto/create-user.dto';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
-import CreateBookDto from 'src/books/dto/create-book.dto';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
@@ -19,7 +20,7 @@ export class UserController {
 
   @ApiResponse({ status: 200, description: 'returns created user' })
   @ApiTags('user')
-  @Post('post')
+  @Post()
   postUser(@Body() user: CreateUserDto) {
     return this.userService.insert(user);
   }
@@ -31,6 +32,8 @@ export class UserController {
   })
   @ApiTags('user')
   @Get()
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   getAll() {
     return this.userService.getAllUsers();
   }
@@ -40,9 +43,10 @@ export class UserController {
     description: 'returns list of books of a user',
     isArray: true,
   })
-  // @ApiBody({})
   @ApiTags('user')
   @Get(':id/books')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   getBooks(@Param('id', ParseIntPipe) userId: number) {
     return this.userService.getBooksOFUser(userId);
   }
@@ -54,6 +58,8 @@ export class UserController {
   })
   @ApiTags('user')
   @Put(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   updateUser(
     @Body() user: CreateUserDto,
     @Param('id', ParseIntPipe) id: number,
@@ -67,6 +73,8 @@ export class UserController {
   })
   @ApiTags('user')
   @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   deleteUser(@Param('id', ParseIntPipe) id: number) {
     return this.userService.deleteUser(id);
   }

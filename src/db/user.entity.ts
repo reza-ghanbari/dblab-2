@@ -1,4 +1,3 @@
-
 import {
   BaseEntity,
   Column,
@@ -12,6 +11,9 @@ import BookEntity from './book.entity';
 export default class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ length: 500 })
+  password: string;
 
   @Column({ length: 500 })
   name: string;

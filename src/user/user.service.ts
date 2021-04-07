@@ -1,5 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
+import { Injectable } from '@nestjs/common';
 import { BooksService } from 'src/books/books.service';
 import BookEntity from 'src/db/book.entity';
 import UserEntity from 'src/db/user.entity';
@@ -8,17 +7,17 @@ import CreateUserDto from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
-  // private bookService: BooksService;
   constructor(private readonly bookService: BooksService) {}
 
-  // onModuleInit() {
-  //   this.bookService = this.moduleRef.get(BooksService);
-  // }
+  async getUserByName(username: string): Promise<UserEntity> {
+    return await UserEntity.findOne({ where: { name: username } });
+  }
 
   async insert(userDetails: CreateUserDto): Promise<UserEntity> {
     const userEntity = UserEntity.create();
-    const { name } = userDetails;
+    const { name, password } = userDetails;
     userEntity.name = name;
+    userEntity.password = password;
     await UserEntity.save(userEntity);
     return userEntity;
   }
@@ -46,7 +45,11 @@ export class UserService {
     userDetails: CreateUserDto,
     id: number,
   ): Promise<UserEntity> {
-    const userEntity = UserEntity.create({ name: userDetails?.name, id: id });
+    const userEntity = UserEntity.create({
+      name: userDetails?.name,
+      id: id,
+      password: userDetails?.password,
+    });
     const books = await this.bookService.getBooks(userDetails?.books);
     if (books) userEntity.books = books;
     return await UserEntity.save(userEntity);

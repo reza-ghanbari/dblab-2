@@ -7,5 +7,6 @@ import { BooksModule } from 'src/books/books.module';
   imports: [BooksModule],
   providers: [UserService],
   controllers: [UserController],
+  exports: [UserService],
 })
 export class UserModule {}

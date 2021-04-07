@@ -6,6 +6,8 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const options = new DocumentBuilder()
+    .addBasicAuth()
+    .addBearerAuth()
     .setTitle('Cats example')
     .setDescription('The cats api description')
     .setVersion('1.0')

@@ -1,3 +1,4 @@
+import { AuthGuard } from '@nestjs/passport';
 import {
   Body,
   Controller,
@@ -7,8 +8,9 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import CreateGenreDto from './dto/create-genre.dto';
 import { GenreService } from './genre.service';
 
@@ -18,7 +20,9 @@ export class GenreController {
 
   @ApiResponse({ status: 200, description: 'creates new genre' })
   @ApiTags('genre')
-  @Post('post')
+  @Post()
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   postGenre(@Body() genreDto: CreateGenreDto) {
     return this.genreService.insert(genreDto);
   }
@@ -30,6 +34,8 @@ export class GenreController {
   })
   @ApiTags('genre')
   @Get()
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   getAllGenres() {
     return this.genreService.getAll();
   }
@@ -41,6 +47,8 @@ export class GenreController {
   })
   @ApiTags('genre')
   @Put(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   updateGenre(
     @Body() genre: CreateGenreDto,
     @Param('id', ParseIntPipe) id: number,
@@ -54,6 +62,8 @@ export class GenreController {
   })
   @ApiTags('genre')
   @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   deleteGenre(@Param('id', ParseIntPipe) id: number) {
     return this.genreService.deleteGenre(id);
   }

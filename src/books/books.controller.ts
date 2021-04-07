@@ -1,4 +1,5 @@
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -8,6 +9,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { BooksService } from './books.service';
 import CreateBookDto from './dto/create-book.dto';
@@ -22,6 +24,8 @@ export class BooksController {
   })
   @ApiTags('book')
   @Post()
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   async postBook(@Body() book: CreateBookDto) {
     return this.bookService.insert(book);
   }
@@ -29,6 +33,8 @@ export class BooksController {
   @ApiResponse({ status: 200, description: 'returns all books', isArray: true })
   @ApiTags('book')
   @Get()
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   async getAll() {
     return this.bookService.getAll();
   }
@@ -40,6 +46,8 @@ export class BooksController {
   })
   @ApiTags('book')
   @Put(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   updateBook(
     @Body() book: CreateBookDto,
     @Param('id', ParseIntPipe) id: number,
@@ -50,6 +58,8 @@ export class BooksController {
   @ApiResponse({ status: 200, description: 'deletes a user if it exists' })
   @ApiTags('book')
   @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   async deleteBook(@Param('id', ParseIntPipe) id: number) {
     return this.bookService.deleteBook(id);
   }
