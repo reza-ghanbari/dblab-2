@@ -5,11 +5,11 @@ import { HelloModule } from './hello/hello.module';
 import { BooksModule } from './books/books.module';
 import { GenreModule } from './genre/genre.module';
 import { UserModule } from './user/user.module';
-import UserEntity from './db/user.entity';
-import GenreEntity from './db/genre.entity';
-import BookEntity from './db/book.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { JobseekersModule } from './jobseekers/jobseekers.module';
+import ProjectEntity from './db/project.enity';
+import CustomerEntity from './db/customer.entity';
 
 @Module({
   imports: [
@@ -17,7 +17,8 @@ import { AuthModule } from './auth/auth.module';
     BooksModule,
     GenreModule,
     UserModule,
-    TypeOrmModule.forFeature([UserEntity, BookEntity, GenreEntity]),
+    JobseekersModule,
+    TypeOrmModule.forFeature([CustomerEntity, ProjectEntity]),
     TypeOrmModule.forRoot(),
     AuthModule,
   ],

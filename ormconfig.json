@@ -4,9 +4,10 @@
   "port": 5432,
   "username": "postgres",
   "password": "rq192578",
-  "database": "bookapp",
+  "database": "NewCodersApp",
   "synchronize": "true",
   "entities": [
-    "dist/db/*.entity{.js, .ts}"
+    "dist/db/customer.entity.js",
+    "dist/db/project.enity.js"
   ]
 }
